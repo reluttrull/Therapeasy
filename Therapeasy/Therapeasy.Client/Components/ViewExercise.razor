@@ -1,0 +1,46 @@
+@page "/exercise"
+@page "/exercise/{ExerciseId:int}"
+@page "/exercise/{ExerciseId:int}/{Detail?}"
+@rendermode InteractiveServer
+@using Therapeasy.Model
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+
+<h5><a href="/exercise/@ExerciseId/detailed">Exercise @ExerciseId</a></h5>
+    @if (exercise != null)
+    {
+        <div>@exercise.Name</div>
+        <div>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</div>
+        @if (Detail == "detailed")
+        {
+            <div>@exercise.GetFormattedSetsAndReps()</div>
+            <div>@exercise.Notes</div>
+            <EditExerciseImage ExerciseId=@ExerciseId />
+        }
+    }
+
+@code {
+    [Parameter]
+    public int ExerciseId { get; set; }
+    [Parameter]
+    public string Detail { get; set; } = "nodetail";
+    public string Username { get; set; } = "";
+    Exercise exercise = new Exercise();
+    List<ExerciseImage> exerciseImages = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ExerciseId > 0)
+        {
+          var result = await HttpClient.GetFromJsonAsync<Exercise>(NavigationManager.BaseUri + "plandb/get/exercisefromid/" + ExerciseId);
+          if (result != null)
+          {
+              exercise = result;
+          }
+        }
+    }
+}

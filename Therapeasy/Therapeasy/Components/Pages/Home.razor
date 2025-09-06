@@ -1,0 +1,9 @@
+﻿@page "/"
+@using Therapeasy.Client.Components
+
+<PageTitle>Home</PageTitle>
+<AuthorizeView>
+    <h1>Hello, User @context.User.Identity?.Name</h1>
+
+    <MyPlans Username="@context.User.Identity?.Name" />
+</AuthorizeView>

@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Therapeasy/">
+    <Project Path="Therapeasy/Therapeasy.Client/Therapeasy.Client.csproj" />
+    <Project Path="Therapeasy/Therapeasy/Therapeasy.csproj" />
+  </Folder>
+</Solution>
