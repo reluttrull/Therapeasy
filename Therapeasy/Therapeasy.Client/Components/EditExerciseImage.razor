@@ -13,7 +13,7 @@
 <InputFile OnChange="UploadImage"/>
 @if (imgToAdd.ImageData.Length > 1) 
 {
-    <img class="exercise-image" src="@(imgToAdd.GetImageForDisplay())" />
+    <img class="exercise-image" src="@imgSrc" />
     @if (imgUnsaved)
     {
         <button @onclick="SaveImage">Save</button>
@@ -26,9 +26,15 @@
     public string Username { get; set; } = "";
     public bool imgUnsaved { get; set; } = false;
     public ExerciseImage imgToAdd = new ExerciseImage();
+    public string imgSrc = "";
     public Exercise exercise = new Exercise();
 
     protected override async Task OnInitializedAsync()
+    {
+        await LoadExerciseImage();
+    }
+
+    private async Task LoadExerciseImage()
     {
         if (ExerciseId > 0) 
         {
@@ -36,12 +42,14 @@
             if (fetchedExercise != null)
             {
                 exercise = fetchedExercise;
-                if (exercise.ExerciseImageId > 0)
+                if (!imgUnsaved && exercise.ExerciseImageId > 0)
                 {
                     var fetchedImage = await HttpClient.GetFromJsonAsync<ExerciseImage>(NavigationManager.BaseUri + "plandb/get/exerciseimagefromid/" + exercise.ExerciseImageId);
                     if (fetchedImage != null) imgToAdd = fetchedImage;
                 }
             }
+            imgSrc = imgToAdd.GetImageForDisplay();
+            StateHasChanged();
         }
     }
     private async void UploadImage(InputFileChangeEventArgs e)
@@ -56,6 +64,7 @@
 
             imgToAdd = new ExerciseImage(){ Id = 0, Name = file.Name, ImageData = imageBytes, ContentType = file.ContentType };
             imgUnsaved = true;
+            await LoadExerciseImage();
         }
     }
     private async Task SaveImage() {
