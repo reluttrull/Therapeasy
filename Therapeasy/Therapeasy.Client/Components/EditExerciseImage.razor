@@ -10,21 +10,28 @@
 
 @* <h5>Exercise @ExerciseId Image</h5> *@
 <div class="row-container">
-@if (imgToAdd.Id > 0)
-{
-    <div>
-        <ViewExerciseImage ExerciseImageId="@imgToAdd.Id" />
+    @if (imgToAdd.Id > 0)
+    {
+        <div>
+            <ViewExerciseImage ExerciseImageId="@imgToAdd.Id" />
+        </div>
+    }
+    else if (imgToAdd.ImageData.Length > 1) 
+    {
+        <div>
+            <img class="exercise-image" src="@imgSrc" />
+        </div>
+    }
+    <div class="col-container">
+        <p>Upload New Image:</p>
+        <InputFile OnChange="UploadImage" />
     </div>
-}
-else if (imgToAdd.ImageData.Length > 1) 
-{
-    <img class="exercise-image" src="@imgSrc" />
+</div>
+
     @if (imgUnsaved)
     {
         <button @onclick="SaveImage">Save</button>
-        // save button
     }
-}
 @code {
     [Parameter]
     public int ExerciseId { get; set; } = 0;
