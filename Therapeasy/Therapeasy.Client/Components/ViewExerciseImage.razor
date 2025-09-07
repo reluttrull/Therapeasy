@@ -10,10 +10,10 @@
 @inject NavigationManager NavigationManager
 
 
-<h5><a href="/exerciseimage/@ExerciseImageId/detailed">Exercise Image @ExerciseImageId</a></h5>
+@* <h5><a href="/exerciseimage/@ExerciseImageId/detailed">Exercise Image @ExerciseImageId</a></h5> *@
     @if (exerciseImage != null)
     {
-        <img class="exercise-image" src="@(exerciseImage.GetImageForDisplay())" />
+        <a href="/exerciseimage/@ExerciseImageId/detailed"><img class="exercise-image" src="@(exerciseImage.GetImageForDisplay())" /></a>
     }
 
 @code {

@@ -3,7 +3,7 @@
 
 <PageTitle>Home</PageTitle>
 <AuthorizeView>
-    <h1>Hello, User @context.User.Identity?.Name</h1>
+    <p>Hello, @context.User.Identity?.Name</p>
 
     <MyPlans Username="@context.User.Identity?.Name" />
 </AuthorizeView>

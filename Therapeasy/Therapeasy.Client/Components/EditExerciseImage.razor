@@ -8,17 +8,24 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<h5>Exercise @ExerciseId Image</h5>
-
-<InputFile OnChange="UploadImage"/>
+@* <h5>Exercise @ExerciseId Image</h5> *@
+<div class="row-container">
 @if (imgToAdd.ImageData.Length > 1) 
 {
-    <img class="exercise-image" src="@(imgToAdd.GetImageForDisplay())" />
-    @if (imgUnsaved)
-    {
-        <button @onclick="SaveImage">Save</button>
-        // save button
-    }
+    <div>
+        <img class="exercise-image" src="@(imgToAdd.GetImageForDisplay())" />
+    </div>
+}
+<div class="col-container">
+    <div>Upload New Image:</div>
+    <InputFile OnChange="UploadImage" />
+</div>
+</div>
+
+@if (imgUnsaved)
+{
+    <button @onclick="SaveImage">Save</button>
+    // save button
 }
 @code {
     [Parameter]

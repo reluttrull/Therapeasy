@@ -17,7 +17,9 @@
       @foreach (PlanExerciseLink link in planExerciseLinks.Where(l => l.PlanId == plan.Id))
       {
         <ViewExercise ExerciseId="link.ExerciseId" Detail=@Detail />
-        <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+        <div>
+          <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+        </div>
         <hr />
       }
       <ConfirmDelete @ref="ConfirmDialog"
