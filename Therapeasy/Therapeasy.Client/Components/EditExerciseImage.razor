@@ -8,10 +8,15 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<h5>Exercise @ExerciseId Image</h5>
-
-<InputFile OnChange="UploadImage"/>
-@if (imgToAdd.ImageData.Length > 1) 
+@* <h5>Exercise @ExerciseId Image</h5> *@
+<div class="row-container">
+@if (imgToAdd.Id > 0)
+{
+    <div>
+        <ViewExerciseImage ExerciseImageId="@imgToAdd.Id" />
+    </div>
+}
+else if (imgToAdd.ImageData.Length > 1) 
 {
     <img class="exercise-image" src="@imgSrc" />
     @if (imgUnsaved)

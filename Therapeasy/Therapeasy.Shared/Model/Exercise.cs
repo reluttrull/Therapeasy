@@ -25,7 +25,7 @@ namespace Therapeasy.Model
 
         public string GetFormattedSetsAndReps()
         {
-            return SetsPerDay + "x" + RepsPerSet;
+            return RepsPerSet + " repetitions, " + SetsPerDay + " times per day";
         }
     }
 }

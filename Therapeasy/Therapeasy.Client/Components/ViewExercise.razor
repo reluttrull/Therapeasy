@@ -9,16 +9,14 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-
-<h5><a href="/exercise/@ExerciseId/detailed">Exercise @ExerciseId</a></h5>
     @if (exercise != null)
     {
-        <div>@exercise.Name</div>
-        <div>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</div>
+        <h5><a href="/exercise/@ExerciseId/detailed">@exercise.Name</a></h5>
+        <p>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</p>
         @if (Detail == "detailed")
         {
-            <div>@exercise.GetFormattedSetsAndReps()</div>
-            <div>@exercise.Notes</div>
+            <p>@exercise.GetFormattedSetsAndReps()</p>
+            @if (exercise.Notes.Length > 1) {<p>Notes: @exercise.Notes</p>}
             <EditExerciseImage ExerciseId=@ExerciseId />
         }
     }

@@ -9,15 +9,17 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-    <h5><a href="/plan/@plan.Id/detailed">@plan.Id: @plan.Name</a></h5>
-    <div>- added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</div>
-    <div>- for @plan.BodyRegion</div>
+    <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
+    <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
+    <p><strong>for @plan.BodyRegion</strong></p>
     @if (Detail == "detailed")
     {
       @foreach (PlanExerciseLink link in planExerciseLinks.Where(l => l.PlanId == plan.Id))
       {
         <ViewExercise ExerciseId="link.ExerciseId" Detail=@Detail />
-        <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+        <div>
+          <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+        </div>
         <hr />
       }
       <ConfirmDelete @ref="ConfirmDialog"
