@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Therapeasy.Client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5608b3bfbc2b703fc4d9ebfaa9be36df688192c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de3835dd95db907cc6ace55e3b5d1dee70ef19b1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Therapeasy.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Therapeasy.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
