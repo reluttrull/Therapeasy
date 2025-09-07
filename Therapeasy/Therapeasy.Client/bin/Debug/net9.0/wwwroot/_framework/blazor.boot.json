@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Therapeasy.Client",
   "resources": {
-    "hash": "sha256-5lQa4Hbb7xLRbEPlV8RPAT3OBPlNoWnHgp8E4OXqEw4=",
+    "hash": "sha256-XKNs/s0ytt5TSyfsHhh3LHkn4szdVxRxhUUgWoN5PHM=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Authorization.phaa9r44xv.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.4o2vz6uw5j.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -203,10 +203,10 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "Therapeasy.Shared.fgv327ka68.wasm": "Therapeasy.Shared.wasm",
-      "Therapeasy.Shared.38cm09zsfq.pdb": "Therapeasy.Shared.pdb",
-      "Therapeasy.Client.3xd1rvcz7m.wasm": "Therapeasy.Client.wasm",
-      "Therapeasy.Client.0bm69w4v2b.pdb": "Therapeasy.Client.pdb"
+      "Therapeasy.Shared.6cbsd3ma8z.wasm": "Therapeasy.Shared.wasm",
+      "Therapeasy.Shared.iz3kjxmp0l.pdb": "Therapeasy.Shared.pdb",
+      "Therapeasy.Client.ux0hk7yu9w.wasm": "Therapeasy.Client.wasm",
+      "Therapeasy.Client.cm0umvgek2.pdb": "Therapeasy.Client.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.rtblh4npr3.js": "sha256-HyBzcYNpT2l19+f1bpjNOa1oFoLe3K4JIQ6GsFK5m6I="
@@ -418,12 +418,12 @@
       "WindowsBase.u25hol0de4.wasm": "sha256-CgB28KCiYKHd4yK6IM0PJ526P7IbRCpNkGTqn+cLwxs=",
       "mscorlib.brg9pkj3je.wasm": "sha256-FzZwzxUYYyg3qxc7Km8r50UKAmRWrIeckSFG1NTHKNU=",
       "netstandard.wuzd3f1y6v.wasm": "sha256-yAXc0deBIRkWTVXqADZfhgZtrxGgJCIbZYVtA0NjvdM=",
-      "Therapeasy.Shared.fgv327ka68.wasm": "sha256-AcANnaO8Rwjb2VdJT5nEa0ZwLCLkdE1Xhr4c2j7YK2A=",
-      "Therapeasy.Client.3xd1rvcz7m.wasm": "sha256-SazqZGcsa2KWUPeBrQ8yVarnZMu8owutAu5IvplSRh0="
+      "Therapeasy.Shared.6cbsd3ma8z.wasm": "sha256-mt7wLqNFoMWpxPgMLshA90zAsjFd88fXhAFo//kpKpk=",
+      "Therapeasy.Client.ux0hk7yu9w.wasm": "sha256-As+7tBDjJAN7h9+9SF3K9hKeYKfYV/1bDZ0auNOPMNE="
     },
     "pdb": {
-      "Therapeasy.Shared.38cm09zsfq.pdb": "sha256-Y9s0y+5bd5gPoI72UELxkt7Z3/MDcqnTyYhRFl+JtR4=",
-      "Therapeasy.Client.0bm69w4v2b.pdb": "sha256-lCC87I+y5Q7kMWj5PiFiP9dIq5xgVaQKvbjOjLkouhs="
+      "Therapeasy.Shared.iz3kjxmp0l.pdb": "sha256-0ve3tJINTGzp7+woxhHqrhK5A/GkcVmJU0pYVsBNO5k=",
+      "Therapeasy.Client.cm0umvgek2.pdb": "sha256-XG+Idil9SQLUXuLCZw04OW4ySjQZI/n+FJ3Uvvy1Lkc="
     }
   },
   "cacheBootResources": true,

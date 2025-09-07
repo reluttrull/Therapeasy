@@ -187,7 +187,6 @@ C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\scopedcss\Compo
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\scopedcss\bundle\Therapeasy.styles.css
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\scopedcss\projectbundle\Therapeasy.bundle.scp.css
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\f32kn295nz-gcvjxldlff.gz
-C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\a203ok9s46-06srvewpa8.gz
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\1d3lqyeyti-bqjiyaj88i.gz
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\9z16wacew5-c2jlpeoesf.gz
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\h5ek40y2lq-erw9l3u2r3.gz
@@ -244,3 +243,4 @@ C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\refint\Therapea
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\Therapeasy.pdb
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\Therapeasy.genruntimeconfig.cache
 C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\ref\Therapeasy.dll
+C:\Users\relut\Therapeasy\Therapeasy\Therapeasy\obj\Debug\net9.0\compressed\a203ok9s46-t2wk8ethty.gz
