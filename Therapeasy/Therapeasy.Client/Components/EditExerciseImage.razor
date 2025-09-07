@@ -18,20 +18,12 @@
 }
 else if (imgToAdd.ImageData.Length > 1) 
 {
-    <div>
-        <img class="exercise-image" src="@(imgToAdd.GetImageForDisplay())" />
-    </div>
-}
-<div class="col-container">
-    <div>Upload New Image:</div>
-    <InputFile OnChange="UploadImage" />
-</div>
-</div>
-
-@if (imgUnsaved)
-{
-    <button @onclick="SaveImage">Save</button>
-    // save button
+    <img class="exercise-image" src="@imgSrc" />
+    @if (imgUnsaved)
+    {
+        <button @onclick="SaveImage">Save</button>
+        // save button
+    }
 }
 @code {
     [Parameter]
