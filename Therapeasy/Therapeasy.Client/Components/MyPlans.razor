@@ -2,6 +2,7 @@
 @page "/plans/{Username}"
 @page "/plans/{Username}/{Detail?}"
 @rendermode InteractiveServer
+@using Therapeasy.Enums
 @using Therapeasy.Model
 @using System.Net
 @using System.Net.Http.Json
@@ -28,9 +29,9 @@
 <EditForm Model="@planToAdd" OnSubmit="Submit">
     <div><label>Plan name (do NOT use identifiable information)</label><InputText @bind-Value="planToAdd.Name" /></div>
     <div><label>Body region</label><InputSelect @bind-Value="planToAdd.BodyRegion">
-        @foreach (var bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
+        @foreach (Enum bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
         {
-            <option value="@bodyRegion">@bodyRegion</option>
+            <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
         }
     </InputSelect></div>
     <div><button type="submit">Add plan</button></div>
