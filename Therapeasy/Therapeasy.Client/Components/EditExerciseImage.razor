@@ -5,6 +5,9 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 @using System.Text
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles="Therapist,Admin")]
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
@@ -13,7 +16,7 @@
     @if (imgToAdd.Id > 0)
     {
         <div>
-            <ViewExerciseImage ExerciseImageId="@imgToAdd.Id" />
+            <ThisExerciseImage ExerciseImageId="@imgToAdd.Id" />
         </div>
     }
     else if (imgToAdd.ImageData.Length > 1) 

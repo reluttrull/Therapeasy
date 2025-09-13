@@ -3,6 +3,7 @@
 @page "/exercise/{ExerciseId:int}/{Detail?}"
 @rendermode InteractiveServer
 @using Therapeasy.Model
+@using Microsoft.AspNetCore.Authorization
 @using System.Net.Http.Json
 @using System.Text.Json
 @using System.Text
@@ -12,6 +13,9 @@
     @if (exercise != null)
     {
         <h5><a href="/exercise/@ExerciseId/detailed">@exercise.Name</a></h5>
+        <AuthorizeView Roles="Therapist,Admin">
+            <button>***TODO***Edit</button>
+        </AuthorizeView>
         <p>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</p>
         @if (Detail == "detailed")
         {
