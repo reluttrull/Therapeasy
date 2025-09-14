@@ -12,13 +12,32 @@
 @using System.Text
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
-
-    <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
-    <AuthorizeView Roles="Therapist,Admin">
-      <button>***TODO***Edit</button>
+    <AuthorizeView Roles="Therapist,Admin" Context="authContext">
+      <small>therapist view</small>
+      <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View" : "Edit")</button>
+      @if (IsEdit) {
+        <EditForm Model="@plan" OnSubmit="UpdatePlan">
+          <div><label>Plan name (do NOT use identifiable information)</label><InputText @bind-Value="plan.Name" /></div>
+          <div><label>Body region</label><InputSelect @bind-Value="plan.BodyRegion">
+              @foreach (Enum bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
+              {
+                  <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
+              }
+          </InputSelect></div>
+          <div><button type="submit">Update plan</button></div>
+      </EditForm>
+      } else {
+      <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
+      <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
+      <p><strong>for @plan.BodyRegion.GetDisplayName()</strong></p>
+      }
     </AuthorizeView>
-    <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
-    <p><strong>for @plan.BodyRegion.GetDisplayName()</strong></p>
+    <AuthorizeView Roles="Patient" Context="authContext">
+      <small>patient view</small>
+      <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
+      <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
+      <p><strong>for @plan.BodyRegion.GetDisplayName()</strong></p>
+    </AuthorizeView>
     @if (Detail == "detailed")
     {
       @foreach (PlanExerciseLink link in planExerciseLinks.Where(l => l.PlanId == plan.Id))
@@ -48,6 +67,7 @@
     public int PlanId { get; set; } = 0;
     [Parameter]
     public string Detail { get; set; } = "nodetail";
+    private bool IsEdit = false;
     Plan plan = new Plan();
     Exercise exerciseToAdd = new();
 
@@ -55,6 +75,20 @@
     private ConfirmDelete ConfirmDialog;
     private int exerciseDlt = -1;
     
+    private async void UpdatePlan() 
+    {
+      var json = JsonSerializer.Serialize(plan);
+      var content = new StringContent(json, Encoding.UTF8, "application/json");
+      var response = await HttpClient.PutAsync(NavigationManager.BaseUri + "plandb/update/plan/" + plan.Id, content);
+      if (!response.IsSuccessStatusCode)
+      {
+          Console.WriteLine($"Error: {response.StatusCode}");
+          return;
+      }
+      // LoadPlans();
+      //await InvokeAsync(StateHasChanged);
+    }
+
     void DeleteExercise(int id)
     {
       exerciseDlt = id;
