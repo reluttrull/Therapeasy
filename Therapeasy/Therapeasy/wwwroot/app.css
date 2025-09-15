@@ -85,9 +85,31 @@ h1:focus {
     max-height:200px;
 }
 
-button {
-    margin-top: 10px;
-    margin-bottom: 10px;
+button, .load-files-label {
+  margin:10px;
+}
+
+.btn-primary, .load-files-label {
+  background: linear-gradient(45deg, #011481, #000c4b);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-secondary, .btn-success, .btn-danger {
+  padding: 12px 25px;
+  border-radius: 50px;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:hover, .btn-secondary:hover, .btn-success:hover,
+.btn-danger:hover, .load-files-label:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
 }
 
 .row-container {

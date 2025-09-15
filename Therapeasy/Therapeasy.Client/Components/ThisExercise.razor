@@ -11,7 +11,7 @@
 @inject NavigationManager NavigationManager
 
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-  <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Exercise" : "Edit Exercise")</button>
+  <button class="btn-primary" @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Exercise" : "Edit Exercise")</button>
 </AuthorizeView>
 @if (IsEdit) {
   <EditExercise ExerciseId=@ExerciseId Detail=@Detail />
