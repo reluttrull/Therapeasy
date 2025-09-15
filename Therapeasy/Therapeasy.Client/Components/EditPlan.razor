@@ -2,7 +2,6 @@
 @page "/editplan/{PlanId:int}"
 @page "/editplan/{PlanId:int}/{Detail?}"
 
-
 @rendermode InteractiveServer
 @using Therapeasy.Enums
 @using Therapeasy.Model
@@ -13,7 +12,6 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-    <small>therapist edit view</small>
     <EditForm Model="@plan" OnSubmit="UpdatePlan">
         <div><label>Plan name (do NOT use identifiable information)</label><InputText @bind-Value="plan.Name" /></div>
         <div><label>Body region</label><InputSelect @bind-Value="plan.BodyRegion">
@@ -22,7 +20,7 @@
                 <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
             }
         </InputSelect></div>
-        <div><button type="submit">Update plan</button></div>
+        <div><button class="btn-primary" type="submit">Update plan</button></div>
     </EditForm>
 
     @if (Detail == "detailed")
@@ -31,7 +29,7 @@
         {
         <ThisExercise ExerciseId="link.ExerciseId" Detail=@Detail />
         <div>
-            <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+            <button class="btn btn-danger" @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
         </div>
         <hr />
         }
@@ -45,7 +43,7 @@
             <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Notes" /></div>
             <div><label>Sets per day</label><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
             <div><label>Reps per set</label><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
-            <div><button type="submit">Add exercise</button></div>
+            <div><button class="btn btn-success" type="submit">Add exercise</button></div>
         </EditForm>
     }
 </AuthorizeView>

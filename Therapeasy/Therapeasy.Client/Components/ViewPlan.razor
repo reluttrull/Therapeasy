@@ -12,7 +12,6 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 <AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
-    <small>view only</small>
     <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
     <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
     <p><strong>for @plan.BodyRegion.GetDisplayName()</strong></p>

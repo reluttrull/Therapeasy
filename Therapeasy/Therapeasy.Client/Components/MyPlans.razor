@@ -20,7 +20,7 @@
 {
   <div @key="plan">
     <ThisPlan PlanId=@plan.Id />
-    <button @onclick=@(e => DeletePlan(plan.Id))>Delete plan</button>
+    <button class="btn btn-danger" @onclick=@(e => DeletePlan(plan.Id))>Delete plan</button>
   </div>
   <ConfirmDelete @ref="ConfirmDialog"
                 Title="Delete Confirmation"
@@ -37,7 +37,7 @@
             <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
         }
     </InputSelect></div>
-    <div><button type="submit">Add plan</button></div>
+    <div><button class="btn btn-success" type="submit">Add plan</button></div>
 </EditForm>
 </div>
 

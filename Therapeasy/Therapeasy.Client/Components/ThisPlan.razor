@@ -2,8 +2,8 @@
 @page "/plan/{PlanId:int}"
 @page "/plan/{PlanId:int}/{Detail?}"
 
-
 @rendermode InteractiveServer
+@using QRCoder
 @using Therapeasy.Enums
 @using Therapeasy.Model
 @using Microsoft.AspNetCore.Authorization
@@ -15,13 +15,16 @@
 
 
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-  <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Plan" : "Edit Plan")</button>
+  <button class="btn-primary" @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Plan" : "Edit Plan")</button>
 </AuthorizeView>
 @if (IsEdit) {
   <EditPlan PlanId=@PlanId Detail=@Detail />
 } else {
   <ViewPlan PlanId=@PlanId Detail=@Detail />
 }
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
+  <img src="@(qrImgSrc)" style="height:200px;width:200px" />
+</AuthorizeView>
 
 @code {
     [Parameter]
@@ -35,7 +38,19 @@
     List<PlanExerciseLink> planExerciseLinks = new();
     private ConfirmDelete ConfirmDialog;
     private int exerciseDlt = -1;
+    private string qrImgSrc = "";
     
+    private string GetQR()
+    {
+      using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+      using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(NavigationManager.BaseUri + "plan/" + plan.Id + "/detailed", QRCodeGenerator.ECCLevel.Q))
+      using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
+      {
+          byte[] qrCodeImage = qrCode.GetGraphic(20);
+          return String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(qrCodeImage));
+      }
+    }
+
     private async void UpdatePlan() 
     {
       var json = JsonSerializer.Serialize(plan);
@@ -46,8 +61,6 @@
           Console.WriteLine($"Error: {response.StatusCode}");
           return;
       }
-      // LoadPlans();
-      //await InvokeAsync(StateHasChanged);
     }
 
     void DeleteExercise(int id)
@@ -110,8 +123,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-      
       await LoadPlan();
+      qrImgSrc = GetQR();
     }
     private async Task LoadPlan()
     {

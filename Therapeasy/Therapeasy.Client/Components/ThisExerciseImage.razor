@@ -27,15 +27,16 @@
     </AuthorizeView>
     <AuthorizeView Roles="Admin,Therapist" Context="authContext">
         <div class="col-container">
-            <p>Upload New Image:</p>
-            <InputFile OnChange="UploadImage" />
+            <label class="load-files-label">Choose new image file
+                <InputFile hidden OnChange="UploadImage" />
+            </label>
         </div>
     </AuthorizeView>
 </div>
 
     @if (imgUnsaved)
     {
-        <button @onclick="SaveImage">Save</button>
+        <button class="btn-primary" @onclick="SaveImage">Save</button>
     }
 @code {
     [Parameter]
