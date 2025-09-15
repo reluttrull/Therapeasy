@@ -1,0 +1,129 @@
+@page "/plan"
+@page "/plan/{PlanId:int}"
+@page "/plan/{PlanId:int}/{Detail?}"
+
+
+@rendermode InteractiveServer
+@using Therapeasy.Enums
+@using Therapeasy.Model
+@using Microsoft.AspNetCore.Authorization
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
+  <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Plan" : "Edit Plan")</button>
+</AuthorizeView>
+@if (IsEdit) {
+  <EditPlan PlanId=@PlanId Detail=@Detail />
+} else {
+  <ViewPlan PlanId=@PlanId Detail=@Detail />
+}
+
+@code {
+    [Parameter]
+    public int PlanId { get; set; } = 0;
+    [Parameter]
+    public string Detail { get; set; } = "nodetail";
+    private bool IsEdit = false;
+    Plan plan = new Plan();
+    Exercise exerciseToAdd = new();
+
+    List<PlanExerciseLink> planExerciseLinks = new();
+    private ConfirmDelete ConfirmDialog;
+    private int exerciseDlt = -1;
+    
+    private async void UpdatePlan() 
+    {
+      var json = JsonSerializer.Serialize(plan);
+      var content = new StringContent(json, Encoding.UTF8, "application/json");
+      var response = await HttpClient.PutAsync(NavigationManager.BaseUri + "plandb/update/plan/" + plan.Id, content);
+      if (!response.IsSuccessStatusCode)
+      {
+          Console.WriteLine($"Error: {response.StatusCode}");
+          return;
+      }
+      // LoadPlans();
+      //await InvokeAsync(StateHasChanged);
+    }
+
+    void DeleteExercise(int id)
+    {
+      exerciseDlt = id;
+      ConfirmDialog.Show();
+    }
+
+    private async void HandleDialogClose(bool confirmed)
+    {
+        if (confirmed)
+        {
+          var response = await HttpClient.DeleteAsync(NavigationManager.BaseUri + "plandb/delete/exercise/" + exerciseDlt);
+          await LoadPlan();
+        }
+        else
+        {
+          Console.WriteLine("Action canceled.");
+        }
+        exerciseDlt = -1;
+    }
+    private async void Submit() 
+    {
+      // save new plan to db
+      exerciseToAdd.CreatedByUser = plan.CreatedByUser;
+      exerciseToAdd.DateCreated = DateTime.Now.Date;
+      var json = JsonSerializer.Serialize(exerciseToAdd);
+      var content = new StringContent(json, Encoding.UTF8, "application/json");
+      var response = await HttpClient.PostAsync(NavigationManager.BaseUri + "plandb/create/exercise/", content);
+      if (!response.IsSuccessStatusCode)
+      {
+          Console.WriteLine($"Error: {response.StatusCode}");
+          return;
+      }
+      var options = new JsonSerializerOptions
+      {
+          PropertyNameCaseInsensitive = true
+      };
+      string jsonString = response.Content.ReadAsStringAsync().Result;
+      if (jsonString != null && jsonString != "")
+      {
+        Exercise? returnExercise = JsonSerializer.Deserialize<Exercise>(jsonString, options);
+        if (returnExercise != null)
+        {
+          PlanExerciseLink linkToAdd = new(){ PlanId = plan.Id, ExerciseId = returnExercise.Id };
+          json = JsonSerializer.Serialize(linkToAdd);
+          content = new StringContent(json, Encoding.UTF8, "application/json");
+          response = await HttpClient.PostAsync(NavigationManager.BaseUri + "plandb/create/planexerciselink/", content);
+          if (!response.IsSuccessStatusCode)
+          {
+              Console.WriteLine($"Error: {response.StatusCode}");
+              return;
+          }
+        }
+      }
+      exerciseToAdd = new();
+      await LoadPlan();
+      await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+      
+      await LoadPlan();
+    }
+    private async Task LoadPlan()
+    {
+        if (PlanId > 0)
+        {
+          var responsePlan = await HttpClient.GetFromJsonAsync<Plan>(NavigationManager.BaseUri + "plandb/get/planfromid/" + PlanId);
+          if (responsePlan != null)
+          {
+            plan = responsePlan;
+            var responseLinks = await HttpClient.GetFromJsonAsync<List<PlanExerciseLink>>(NavigationManager.BaseUri + "plandb/get/planexerciselinksforplan/" + plan.Id);
+            if (responseLinks != null) planExerciseLinks.AddRange(responseLinks);
+          }
+        }
+    }
+}

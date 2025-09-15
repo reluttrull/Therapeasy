@@ -1,6 +1,6 @@
-@page "/viewexercise"
-@page "/viewexercise/{ExerciseId:int}"
-@page "/viewexercise/{ExerciseId:int}/{Detail?}"
+@page "/exercise"
+@page "/exercise/{ExerciseId:int}"
+@page "/exercise/{ExerciseId:int}/{Detail?}"
 @rendermode InteractiveServer
 @using Therapeasy.Model
 @using Microsoft.AspNetCore.Authorization
@@ -10,24 +10,22 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
-    @if (exercise != null)
-    {
-        <h5><a href="/exercise/@ExerciseId/detailed">@exercise.Name</a></h5>
-        <p>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</p>
-        @if (Detail == "detailed")
-        {
-            <p>@exercise.GetFormattedSetsAndReps()</p>
-            @if (exercise.Notes.Length > 1) {<p>Notes: @exercise.Notes</p>}
-        }
-    }
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
+  <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Exercise" : "Edit Exercise")</button>
 </AuthorizeView>
+@if (IsEdit) {
+  <EditExercise ExerciseId=@ExerciseId Detail=@Detail />
+} else {
+  <ViewExercise ExerciseId=@ExerciseId Detail=@Detail />
+}
+<ThisExerciseImage ExerciseId=@ExerciseId />
 
 @code {
     [Parameter]
     public int ExerciseId { get; set; }
     [Parameter]
     public string Detail { get; set; } = "nodetail";
+    private bool IsEdit = false;
     public string Username { get; set; } = "";
     Exercise exercise = new Exercise();
     List<ExerciseImage> exerciseImages = new();

@@ -1,19 +1,21 @@
-@page "/editexerciseimage"
-@page "/editexerciseimage/{ExerciseId:int}"
+@page "/exerciseimage"
+@page "/exerciseimage/{ExerciseId:int}"
 @rendermode InteractiveServer
 @using Therapeasy.Model
 @using System.Net.Http.Json
 @using System.Text.Json
 @using System.Text
+@using Microsoft.AspNetCore.Authorization
+
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-@* <h5>Exercise @ExerciseId Image</h5> *@
 <div class="row-container">
+    <AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
     @if (imgToAdd.Id > 0)
     {
         <div>
-            <ViewExerciseImage ExerciseImageId="@imgToAdd.Id" />
+            <a href="/exerciseimage/@imgToAdd.Id/detailed"><img class="exercise-image" src="@(imgToAdd.GetImageForDisplay())" /></a>
         </div>
     }
     else if (imgToAdd.ImageData.Length > 1) 
@@ -22,10 +24,13 @@
             <img class="exercise-image" src="@imgSrc" />
         </div>
     }
-    <div class="col-container">
-        <p>Upload New Image:</p>
-        <InputFile OnChange="UploadImage" />
-    </div>
+    </AuthorizeView>
+    <AuthorizeView Roles="Admin,Therapist" Context="authContext">
+        <div class="col-container">
+            <p>Upload New Image:</p>
+            <InputFile OnChange="UploadImage" />
+        </div>
+    </AuthorizeView>
 </div>
 
     @if (imgUnsaved)

@@ -1,0 +1,58 @@
+@page "/editexercise"
+@page "/editexercise/{ExerciseId:int}"
+@page "/editexercise/{ExerciseId:int}/{Detail?}"
+@rendermode InteractiveServer
+@using Therapeasy.Model
+@using Microsoft.AspNetCore.Authorization
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
+    @if (exercise != null)
+    {
+        <EditForm Model="@exercise" OnSubmit="UpdateExercise">
+            <div><label>Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exercise.Name" /></div>
+            <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exercise.Notes" /></div>
+            <div><label>Sets per day</label><InputNumber @bind-Value="exercise.SetsPerDay" /></div>
+            <div><label>Reps per set</label><InputNumber @bind-Value="exercise.RepsPerSet" /></div>
+            <div><button type="submit">Update exercise</button></div>
+        </EditForm>
+    }
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int ExerciseId { get; set; }
+    [Parameter]
+    public string Detail { get; set; } = "nodetail";
+    public string Username { get; set; } = "";
+    Exercise exercise = new Exercise();
+    List<ExerciseImage> exerciseImages = new();
+
+    private async void UpdateExercise() 
+    {
+      var json = JsonSerializer.Serialize(exercise);
+      var content = new StringContent(json, Encoding.UTF8, "application/json");
+      var response = await HttpClient.PutAsync(NavigationManager.BaseUri + "plandb/update/exercise/" + exercise.Id, content);
+      if (!response.IsSuccessStatusCode)
+      {
+          Console.WriteLine($"Error: {response.StatusCode}");
+          return;
+      }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ExerciseId > 0)
+        {
+          var result = await HttpClient.GetFromJsonAsync<Exercise>(NavigationManager.BaseUri + "plandb/get/exercisefromid/" + ExerciseId);
+          if (result != null)
+          {
+              exercise = result;
+          }
+        }
+    }
+}
