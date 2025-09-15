@@ -1,0 +1,58 @@
+@page "/viewplan"
+@page "/viewplan/{PlanId:int}"
+@page "/viewplan/{PlanId:int}/{Detail?}"
+
+@rendermode InteractiveServer
+@using Therapeasy.Enums
+@using Therapeasy.Model
+@using Microsoft.AspNetCore.Authorization
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+<AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
+    <small>view only</small>
+    <h5><a href="/plan/@plan.Id/detailed"><strong>@plan.Name</strong></a></h5>
+    <p><strong>added on @plan.GetFormattedDateAdded() by @plan.CreatedByUser</strong></p>
+    <p><strong>for @plan.BodyRegion.GetDisplayName()</strong></p>
+    @if (Detail == "detailed")
+    {
+        @foreach (PlanExerciseLink link in planExerciseLinks.Where(l => l.PlanId == plan.Id))
+        {
+        <ThisExercise ExerciseId="link.ExerciseId" Detail=@Detail />
+        <hr />
+        }
+    }
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int PlanId { get; set; } = 0;
+    [Parameter]
+    public string Detail { get; set; } = "nodetail";
+    Plan plan = new Plan();
+    Exercise exerciseToAdd = new();
+
+    List<PlanExerciseLink> planExerciseLinks = new();
+    private int exerciseDlt = -1;
+
+    protected override async Task OnInitializedAsync()
+    {
+      
+      await LoadPlan();
+    }
+    private async Task LoadPlan()
+    {
+        if (PlanId > 0)
+        {
+          var responsePlan = await HttpClient.GetFromJsonAsync<Plan>(NavigationManager.BaseUri + "plandb/get/planfromid/" + PlanId);
+          if (responsePlan != null)
+          {
+            plan = responsePlan;
+            var responseLinks = await HttpClient.GetFromJsonAsync<List<PlanExerciseLink>>(NavigationManager.BaseUri + "plandb/get/planexerciselinksforplan/" + plan.Id);
+            if (responseLinks != null) planExerciseLinks.AddRange(responseLinks);
+          }
+        }
+    }
+}

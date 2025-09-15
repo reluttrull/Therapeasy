@@ -1,6 +1,6 @@
-@page "/plan"
-@page "/plan/{PlanId:int}"
-@page "/plan/{PlanId:int}/{Detail?}"
+@page "/editplan"
+@page "/editplan/{PlanId:int}"
+@page "/editplan/{PlanId:int}/{Detail?}"
 
 
 @rendermode InteractiveServer
@@ -12,23 +12,49 @@
 @using System.Text
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
-
-
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-  <button @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Plan" : "Edit Plan")</button>
+    <small>therapist edit view</small>
+    <EditForm Model="@plan" OnSubmit="UpdatePlan">
+        <div><label>Plan name (do NOT use identifiable information)</label><InputText @bind-Value="plan.Name" /></div>
+        <div><label>Body region</label><InputSelect @bind-Value="plan.BodyRegion">
+            @foreach (Enum bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
+            {
+                <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
+            }
+        </InputSelect></div>
+        <div><button type="submit">Update plan</button></div>
+    </EditForm>
+
+    @if (Detail == "detailed")
+    {
+        @foreach (PlanExerciseLink link in planExerciseLinks.Where(l => l.PlanId == plan.Id))
+        {
+        <ThisExercise ExerciseId="link.ExerciseId" Detail=@Detail />
+        <div>
+            <button @onclick=@(e => DeleteExercise(link.ExerciseId))>Delete exercise</button>
+        </div>
+        <hr />
+        }
+        <ConfirmDelete @ref="ConfirmDialog"
+                    Title="Delete Confirmation"
+                    Message="Are you sure you want to delete this item?"
+                    OnClose="HandleDialogClose" />
+        <h3>Add an exercise to plan: </h3>
+        <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
+            <div><label>Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Name" /></div>
+            <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Notes" /></div>
+            <div><label>Sets per day</label><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
+            <div><label>Reps per set</label><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
+            <div><button type="submit">Add exercise</button></div>
+        </EditForm>
+    }
 </AuthorizeView>
-@if (IsEdit) {
-  <EditPlan PlanId=@PlanId Detail=@Detail />
-} else {
-  <ViewPlan PlanId=@PlanId Detail=@Detail />
-}
 
 @code {
     [Parameter]
     public int PlanId { get; set; } = 0;
     [Parameter]
     public string Detail { get; set; } = "nodetail";
-    private bool IsEdit = false;
     Plan plan = new Plan();
     Exercise exerciseToAdd = new();
 
