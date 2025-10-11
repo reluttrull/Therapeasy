@@ -11,10 +11,17 @@
 @inject NavigationManager NavigationManager
 
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-  <button class="btn-primary" @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Exercise" : "Edit Exercise")</button>
+<div style="float:right">
+  <small>View</small>
+  <div class="toggle-container" @onclick=@(e => IsEdit = !IsEdit)>
+      <input type="checkbox" class="toggle-checkbox" checked="@IsEdit" />
+      <span class="toggle-slider"></span>
+  </div>
+  <small>Edit</small>
+</div>
 </AuthorizeView>
 @if (IsEdit) {
-  <EditExercise ExerciseId=@ExerciseId Detail=@Detail />
+  <EditExercise ExerciseId=@ExerciseId Detail=@Detail OnUpdate="HandleExerciseUpdate" />
 } else {
   <ViewExercise ExerciseId=@ExerciseId Detail=@Detail />
 }
@@ -25,10 +32,15 @@
     public int ExerciseId { get; set; }
     [Parameter]
     public string Detail { get; set; } = "nodetail";
-    private bool IsEdit = false;
+    private bool IsEdit { get; set; } = false;
     public string Username { get; set; } = "";
     Exercise exercise = new Exercise();
     List<ExerciseImage> exerciseImages = new();
+    
+    private void HandleExerciseUpdate()
+    {
+        IsEdit = false;
+    }
 
     protected override async Task OnInitializedAsync()
     {

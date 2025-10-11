@@ -14,10 +14,14 @@
     @if (exercise != null)
     {
         <EditForm Model="@exercise" OnSubmit="UpdateExercise">
-            <div><label>Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exercise.Name" /></div>
-            <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exercise.Notes" /></div>
-            <div><label>Sets per day</label><InputNumber @bind-Value="exercise.SetsPerDay" /></div>
-            <div><label>Reps per set</label><InputNumber @bind-Value="exercise.RepsPerSet" /></div>
+            <div class="form-child"><label>Exercise name (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputText @bind-Value="exercise.Name" /></div>
+            <div class="form-child"><label>Notes (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputTextArea @bind-Value="exercise.Notes" /></div>
+            <div class="form-child"><label>Sets per day</label></div>
+            <div class="form-child"><InputNumber @bind-Value="exercise.SetsPerDay" /></div>
+            <div class="form-child"><label>Reps per set</label></div>
+            <div class="form-child"><InputNumber @bind-Value="exercise.RepsPerSet" /></div>
             <div><button class="btn-primary" type="submit">Update exercise</button></div>
         </EditForm>
     }
@@ -28,6 +32,8 @@
     public int ExerciseId { get; set; }
     [Parameter]
     public string Detail { get; set; } = "nodetail";
+    [Parameter]
+    public EventCallback OnUpdate { get; set; }
     public string Username { get; set; } = "";
     Exercise exercise = new Exercise();
     List<ExerciseImage> exerciseImages = new();
@@ -42,6 +48,7 @@
           Console.WriteLine($"Error: {response.StatusCode}");
           return;
       }
+      await OnUpdate.InvokeAsync();
     }
 
     protected override async Task OnInitializedAsync()

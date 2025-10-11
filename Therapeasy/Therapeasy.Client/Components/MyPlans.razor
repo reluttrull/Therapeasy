@@ -18,9 +18,11 @@
 <div>
 @foreach (Plan plan in plans)
 {
-  <div @key="plan">
+  <div @key="plan" class="box">
     <ThisPlan PlanId=@plan.Id />
-    <button class="btn btn-danger" @onclick=@(e => DeletePlan(plan.Id))>Delete plan</button>
+    <div>
+      <button class="btn btn-danger" @onclick=@(e => DeletePlan(plan.Id))>Delete plan</button>
+    </div>
   </div>
   <ConfirmDelete @ref="ConfirmDialog"
                 Title="Delete Confirmation"

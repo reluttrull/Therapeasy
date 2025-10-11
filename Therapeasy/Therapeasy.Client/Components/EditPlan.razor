@@ -13,8 +13,10 @@
 @inject NavigationManager NavigationManager
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
     <EditForm Model="@plan" OnSubmit="UpdatePlan">
-        <div><label>Plan name (do NOT use identifiable information)</label><InputText @bind-Value="plan.Name" /></div>
-        <div><label>Body region</label><InputSelect @bind-Value="plan.BodyRegion">
+        <div class="form-child"><label>Plan name (do NOT use identifiable information)</label></div>
+        <div class="form-child"><InputText @bind-Value="plan.Name" /></div>
+        <div class="form-child"><label>Body region</label></div>
+        <div class="form-child"><InputSelect @bind-Value="plan.BodyRegion">
             @foreach (Enum bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
             {
                 <option value="@bodyRegion">@bodyRegion.GetDisplayName()</option>
@@ -53,6 +55,8 @@
     public int PlanId { get; set; } = 0;
     [Parameter]
     public string Detail { get; set; } = "nodetail";
+    [Parameter]
+    public EventCallback OnUpdate { get; set; }
     Plan plan = new Plan();
     Exercise exerciseToAdd = new();
 
@@ -70,6 +74,7 @@
           Console.WriteLine($"Error: {response.StatusCode}");
           return;
       }
+      await OnUpdate.InvokeAsync();
     }
 
     void DeleteExercise(int id)
