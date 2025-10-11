@@ -13,6 +13,17 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
+  <div style="float:right">
+    <small>View</small>
+    <div class="toggle-container" @onclick=@(e => IsEdit = !IsEdit)>
+        <input type="checkbox" class="toggle-checkbox" checked="@IsEdit" />
+        <span class="toggle-slider"></span>
+    </div>
+    <small>Edit</small>
+  </div>
+</AuthorizeView>
+
 @if (IsEdit) {
   <EditPlan PlanId=@PlanId Detail=@Detail OnUpdate="HandlePlanUpdate" />
 } else {
@@ -22,9 +33,6 @@
 @if (!IsEdit) {
   <img src="@(qrImgSrc)" style="height:200px;width:200px" />
 }
-  <div>
-    <button class="btn-primary" @onclick=@(e => IsEdit = !IsEdit)>@(IsEdit ? "View Plan" : "Edit Plan")</button>
-  </div>
 </AuthorizeView>
 
 @code {

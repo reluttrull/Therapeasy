@@ -10,7 +10,7 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<div class="row-container">
+<div>
     <AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
     @if (imgToAdd.Id > 0)
     {
@@ -26,7 +26,7 @@
     }
     </AuthorizeView>
     <AuthorizeView Roles="Admin,Therapist" Context="authContext">
-        <div class="col-container">
+        <div>
             <label class="load-files-label">Choose new image file
                 <InputFile hidden OnChange="UploadImage" />
             </label>

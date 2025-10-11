@@ -17,7 +17,9 @@
 <div>
 @foreach (Exercise exercise in exercises)
 {
-    <ThisExercise ExerciseId=@exercise.Id Detail=@Detail />
+    <div @key="exercise" class="box">
+        <ThisExercise ExerciseId=@exercise.Id Detail=@Detail />
+    </div>
 }
 
 <h3>Add an exercise: </h3>
