@@ -25,7 +25,7 @@
 } else {
   <ViewExercise ExerciseId=@ExerciseId Detail=@Detail />
 }
-<ThisExerciseImage ExerciseId=@ExerciseId />
+<ThisExerciseImage ExerciseId=@ExerciseId EditMode=@(IsEdit ? "edit" : "view") />
 
 @code {
     [Parameter]

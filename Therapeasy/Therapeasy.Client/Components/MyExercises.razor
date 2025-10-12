@@ -24,10 +24,10 @@
 
 <h3>Add an exercise: </h3>
 <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
-    <div><label>Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Name" /></div>
-    <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Notes" /></div>
-    <div><label>Sets per day</label><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
-    <div><label>Reps per set</label><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
+    <div><label class="form-label">Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Name" /></div>
+    <div><label class="form-label">Notes (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Notes" /></div>
+    <div><label class="form-label">Sets per day</label><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
+    <div><label class="form-label">Reps per set</label><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
     <div><button class="btn btn-success" type="submit">Add exercise</button></div>
 </EditForm>
 </div>

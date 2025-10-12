@@ -14,13 +14,13 @@
     @if (exercise != null)
     {
         <EditForm Model="@exercise" OnSubmit="UpdateExercise">
-            <div class="form-child"><label>Exercise name (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputText @bind-Value="exercise.Name" /></div>
-            <div class="form-child"><label>Notes (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputTextArea @bind-Value="exercise.Notes" /></div>
-            <div class="form-child"><label>Sets per day</label></div>
+            <div class="form-child form-label"><label>Exercise name (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputText @bind-Value="exercise.Name" style="min-width:350px" /></div>
+            <div class="form-child form-label"><label>Notes (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputTextArea @bind-Value="exercise.Notes" style="min-width:350px; min-height:120px" /></div>
+            <div class="form-child form-label"><label>Sets per day</label></div>
             <div class="form-child"><InputNumber @bind-Value="exercise.SetsPerDay" /></div>
-            <div class="form-child"><label>Reps per set</label></div>
+            <div class="form-child form-label"><label>Reps per set</label></div>
             <div class="form-child"><InputNumber @bind-Value="exercise.RepsPerSet" /></div>
             <div><button class="btn-primary" type="submit">Update exercise</button></div>
         </EditForm>

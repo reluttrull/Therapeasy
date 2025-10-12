@@ -13,9 +13,9 @@
 @inject NavigationManager NavigationManager
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
     <EditForm Model="@plan" OnSubmit="UpdatePlan">
-        <div class="form-child"><label>Plan name (do NOT use identifiable information)</label></div>
-        <div class="form-child"><InputText @bind-Value="plan.Name" /></div>
-        <div class="form-child"><label>Body region</label></div>
+        <div class="form-child form-label"><label>Plan name (do NOT use identifiable information)</label></div>
+        <div class="form-child"><InputText @bind-Value="plan.Name" style="min-width:350px" /></div>
+        <div class="form-child form-label"><label>Body region</label></div>
         <div class="form-child"><InputSelect @bind-Value="plan.BodyRegion">
             @foreach (Enum bodyRegion in Enum.GetValues(typeof(Enums.BodyRegion)))
             {
@@ -39,12 +39,16 @@
                     Title="Delete Confirmation"
                     Message="Are you sure you want to delete this item?"
                     OnClose="HandleDialogClose" />
-        <h3>Add an exercise to plan: </h3>
+        <h3>Add an exercise to this plan: </h3>
         <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
-            <div><label>Exercise name (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Name" /></div>
-            <div><label>Notes (do NOT use identifiable information)</label><InputText @bind-Value="exerciseToAdd.Notes" /></div>
-            <div><label>Sets per day</label><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
-            <div><label>Reps per set</label><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
+            <div class="form-child form-label"><label>Exercise name (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Name" /></div>
+            <div class="form-child form-label"><label>Notes (do NOT use identifiable information)</label></div>
+            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Notes" /></div>
+            <div class="form-child form-label"><label>Sets per day</label></div>
+            <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
+            <div class="form-child form-label"><label>Reps per set</label></div>
+            <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
             <div><button class="btn btn-success" type="submit">Add exercise</button></div>
         </EditForm>
     }

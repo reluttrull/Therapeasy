@@ -1,5 +1,6 @@
 @page "/exerciseimage"
 @page "/exerciseimage/{ExerciseId:int}"
+@page "/exerciseimage/{ExerciseId:int}/{EditMode?}"
 @rendermode InteractiveServer
 @using Therapeasy.Model
 @using System.Net.Http.Json
@@ -26,11 +27,13 @@
     }
     </AuthorizeView>
     <AuthorizeView Roles="Admin,Therapist" Context="authContext">
+    @if (EditMode == "edit") {
         <div>
             <label class="load-files-label">Choose new image file
                 <InputFile hidden OnChange="UploadImage" />
             </label>
         </div>
+    }
     </AuthorizeView>
 </div>
 
@@ -41,6 +44,8 @@
 @code {
     [Parameter]
     public int ExerciseId { get; set; } = 0;
+    [Parameter]
+    public string EditMode { get; set; } = "view";
     public string Username { get; set; } = "";
     public bool imgUnsaved { get; set; } = false;
     public ExerciseImage imgToAdd = new ExerciseImage();
