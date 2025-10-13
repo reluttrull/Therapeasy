@@ -42,6 +42,15 @@
                 <label for="Input.ConfirmPassword">Confirm Password</label>
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
             </div>
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="Input.Role" id="Input.Role" class="form-control" aria-required="true">
+                    <option value="">Select a role...</option>
+                    <option value="Therapist">Therapist</option>
+                    <option value="Patient">Patient</option>
+                </InputSelect>
+                <label for="Input.Role">Role</label>
+                <ValidationMessage For="() => Input.Role" class="text-danger" />
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
     </div>
@@ -81,6 +90,18 @@
         }
 
         Logger.LogInformation("User created a new account with password.");
+        // Assign role to user
+        if (!string.IsNullOrEmpty(Input.Role))
+        {
+            try {
+                await UserManager.AddToRoleAsync(user, Input.Role);
+                Logger.LogInformation($"Assigned role '{Input.Role}' to user '{Input.Email}'.");
+            }
+            catch (ArgumentNullException e)
+            {
+                Logger.LogWarning($"Attempted to assign invalid role '{Input.Role}' to user '{Input.Email}'.");
+            }
+        }
 
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -141,5 +162,9 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+        
+        [Required(ErrorMessage = "You must select a role.")]
+        [Display(Name = "Role")]
+        public string Role { get; set; } = "";
     }
 }

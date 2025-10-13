@@ -42,9 +42,9 @@
         <h3>Add an exercise to this plan: </h3>
         <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
             <div class="form-child form-label"><label>Exercise name (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Name" /></div>
+            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Name" style="min-width:350px" /></div>
             <div class="form-child form-label"><label>Notes (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Notes" /></div>
+            <div class="form-child"><InputTextArea @bind-Value="exerciseToAdd.Notes" style="min-width:350px" /></div>
             <div class="form-child form-label"><label>Sets per day</label></div>
             <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
             <div class="form-child form-label"><label>Reps per set</label></div>

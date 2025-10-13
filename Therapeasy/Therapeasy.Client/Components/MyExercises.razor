@@ -9,11 +9,11 @@
 @using System.Text
 @using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize(Roles="Therapist,Admin")]
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-<h4>My Exercises</h4>
+<h2>My Exercises</h2>
+<AuthorizeView Roles="Therapist,Admin" Context="authContext">
 <div>
 @foreach (Exercise exercise in exercises)
 {
@@ -31,6 +31,7 @@
     <div><button class="btn btn-success" type="submit">Add exercise</button></div>
 </EditForm>
 </div>
+</AuthorizeView>
 
 @code {
     [Parameter]
