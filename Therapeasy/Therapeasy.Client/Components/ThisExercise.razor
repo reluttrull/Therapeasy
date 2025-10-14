@@ -11,7 +11,7 @@
 @inject NavigationManager NavigationManager
 
 <AuthorizeView Roles="Therapist,Admin" Context="authContext">
-<div style="float:right">
+<div style="float:right; padding-right:100px;">
   <small>View</small>
   <div class="toggle-container" @onclick=@(e => IsEdit = !IsEdit)>
       <input type="checkbox" class="toggle-checkbox" checked="@IsEdit" />
