@@ -29,11 +29,6 @@
 } else {
   <ViewPlan PlanId=@PlanId Detail=@Detail />
 }
-<AuthorizeView Roles="Therapist,Admin" Context="authContext">
-@if (!IsEdit) {
-  <img src="@(qrImgSrc)" style="height:200px;width:200px" />
-}
-</AuthorizeView>
 
 @code {
     [Parameter]
@@ -42,103 +37,17 @@
     public string Detail { get; set; } = "nodetail";
     private bool IsEdit = false;
     Plan plan = new Plan();
-    Exercise exerciseToAdd = new();
 
     List<PlanExerciseLink> planExerciseLinks = new();
-    private ConfirmDelete ConfirmDialog;
-    private int exerciseDlt = -1;
-    private string qrImgSrc = "";
 
     private void HandlePlanUpdate()
     {
         IsEdit = false;
     }
-    
-    private string GetQR()
-    {
-      using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
-      using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(NavigationManager.BaseUri + "plan/" + plan.Id + "/detailed", QRCodeGenerator.ECCLevel.Q))
-      using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
-      {
-          byte[] qrCodeImage = qrCode.GetGraphic(20);
-          return String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(qrCodeImage));
-      }
-    }
-
-    private async void UpdatePlan() 
-    {
-      var json = JsonSerializer.Serialize(plan);
-      var content = new StringContent(json, Encoding.UTF8, "application/json");
-      var response = await HttpClient.PutAsync(NavigationManager.BaseUri + "plandb/update/plan/" + plan.Id, content);
-      if (!response.IsSuccessStatusCode)
-      {
-          Console.WriteLine($"Error: {response.StatusCode}");
-          return;
-      }
-    }
-
-    void DeleteExercise(int id)
-    {
-      exerciseDlt = id;
-      ConfirmDialog.Show();
-    }
-
-    private async void HandleDialogClose(bool confirmed)
-    {
-        if (confirmed)
-        {
-          var response = await HttpClient.DeleteAsync(NavigationManager.BaseUri + "plandb/delete/exercise/" + exerciseDlt);
-          await LoadPlan();
-        }
-        else
-        {
-          Console.WriteLine("Action canceled.");
-        }
-        exerciseDlt = -1;
-    }
-    private async void Submit() 
-    {
-      // save new plan to db
-      exerciseToAdd.CreatedByUser = plan.CreatedByUser;
-      exerciseToAdd.DateCreated = DateTime.Now.Date;
-      var json = JsonSerializer.Serialize(exerciseToAdd);
-      var content = new StringContent(json, Encoding.UTF8, "application/json");
-      var response = await HttpClient.PostAsync(NavigationManager.BaseUri + "plandb/create/exercise/", content);
-      if (!response.IsSuccessStatusCode)
-      {
-          Console.WriteLine($"Error: {response.StatusCode}");
-          return;
-      }
-      var options = new JsonSerializerOptions
-      {
-          PropertyNameCaseInsensitive = true
-      };
-      string jsonString = response.Content.ReadAsStringAsync().Result;
-      if (jsonString != null && jsonString != "")
-      {
-        Exercise? returnExercise = JsonSerializer.Deserialize<Exercise>(jsonString, options);
-        if (returnExercise != null)
-        {
-          PlanExerciseLink linkToAdd = new(){ PlanId = plan.Id, ExerciseId = returnExercise.Id };
-          json = JsonSerializer.Serialize(linkToAdd);
-          content = new StringContent(json, Encoding.UTF8, "application/json");
-          response = await HttpClient.PostAsync(NavigationManager.BaseUri + "plandb/create/planexerciselink/", content);
-          if (!response.IsSuccessStatusCode)
-          {
-              Console.WriteLine($"Error: {response.StatusCode}");
-              return;
-          }
-        }
-      }
-      exerciseToAdd = new();
-      await LoadPlan();
-      await InvokeAsync(StateHasChanged);
-    }
 
     protected override async Task OnInitializedAsync()
     {
       await LoadPlan();
-      qrImgSrc = GetQR();
     }
     private async Task LoadPlan()
     {

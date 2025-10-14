@@ -19,8 +19,15 @@ a::after {
   transition: width 0.3s ease;
 }
 
-a:hover::after {
+.link:hover::after {
   width: 100%; /* expand underline on hover */
+}
+
+.confirm {
+  max-width: 50%;
+  /* position: absolute; */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .btn-link {

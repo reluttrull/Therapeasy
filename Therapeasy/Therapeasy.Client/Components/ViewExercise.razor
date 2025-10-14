@@ -13,7 +13,7 @@
 <AuthorizeView Roles="Admin,Therapist,Patient" Context="authContext">
     @if (exercise != null)
     {
-        <h5><a href="/exercise/@ExerciseId/detailed">@exercise.Name</a></h5>
+        <h5><a class="link" href="/exercise/@ExerciseId/detailed">@exercise.Name</a></h5>
         <p>- added on @exercise.GetFormattedDateAdded() by @exercise.CreatedByUser</p>
         @if (Detail == "detailed")
         {
