@@ -39,18 +39,20 @@
                     Title="Delete Confirmation"
                     Message="Are you sure you want to delete this exercise?"
                     OnClose="HandleDialogClose" />
-        <h3>Add an exercise to this plan: </h3>
-        <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
-            <div class="form-child form-label"><label>Exercise name (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputText @bind-Value="exerciseToAdd.Name" style="min-width:350px" /></div>
-            <div class="form-child form-label"><label>Notes (do NOT use identifiable information)</label></div>
-            <div class="form-child"><InputTextArea @bind-Value="exerciseToAdd.Notes" style="min-width:350px" /></div>
-            <div class="form-child form-label"><label>Sets per day</label></div>
-            <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
-            <div class="form-child form-label"><label>Reps per set</label></div>
-            <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
-            <div><button class="btn btn-success" type="submit">Add exercise</button></div>
-        </EditForm>
+        <div class="add-item-block">
+          <h3>Add an exercise to this plan: </h3>
+          <EditForm Model="@exerciseToAdd" OnSubmit="Submit">
+              <div class="form-child form-label"><label>Exercise name (do NOT use identifiable information)</label></div>
+              <div class="form-child"><InputText @bind-Value="exerciseToAdd.Name" style="min-width:350px" /></div>
+              <div class="form-child form-label"><label>Notes (do NOT use identifiable information)</label></div>
+              <div class="form-child"><InputTextArea @bind-Value="exerciseToAdd.Notes" style="min-width:350px" /></div>
+              <div class="form-child form-label"><label>Sets per day</label></div>
+              <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.SetsPerDay" /></div>
+              <div class="form-child form-label"><label>Reps per set</label></div>
+              <div class="form-child"><InputNumber @bind-Value="exerciseToAdd.RepsPerSet" /></div>
+              <div><button class="btn btn-success" type="submit">Add exercise</button></div>
+          </EditForm>
+        </div>
     }
 </AuthorizeView>
 
