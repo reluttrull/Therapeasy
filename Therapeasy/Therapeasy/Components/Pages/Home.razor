@@ -1,9 +1,15 @@
 ﻿@page "/"
 @using Therapeasy.Client.Components
+@inject NavigationManager _navigationManager;
 
 <PageTitle>Home</PageTitle>
 <AuthorizeView>
-    <p style="float:right;">Hello, @context.User.Identity?.Name!</p>
+    <Authorized>
+        <p style="float:right;">Hello, @context.User.Identity?.Name!</p>
 
-    <MyPlans Username="@context.User.Identity?.Name" />
+        <MyPlans Username="@context.User.Identity?.Name" />
+    </Authorized>
+    <NotAuthorized>
+        @{_navigationManager.NavigateTo("Account/Login", forceLoad: true);}
+    </NotAuthorized>
 </AuthorizeView>
