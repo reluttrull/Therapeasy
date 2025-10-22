@@ -198,3 +198,7 @@ input:checked + .toggle-slider::before {
 p {
     margin-bottom: 10px;
 }
+
+.add-item-block {
+  padding-top: 25px;
+}
